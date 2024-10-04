@@ -2,6 +2,8 @@
 #include <iostream>
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
+#include <string>
+#include "OrderBook.h"
 #include "json.hpp"
 #include "Common.hpp"
 
@@ -33,9 +35,16 @@ public:
         }
     }
 
+    void ProcessBuy(const std::string& clientId, const std::string& count, const std::string& price);
+    void ProcessSale(const std::string& clientId, const std::string& count, const std::string& price);
+
+    std::string GetBill();
+    std::string GetActiveRequests();
+
 private:
     // <UserId, UserName>
     std::map<size_t, std::string> mUsers;
+    OrderBook mOrderBook;
 };
 
 Core& GetCore()
@@ -84,11 +93,21 @@ public:
                 // Добавляем нового пользователя и возвращаем его ID.
                 reply = GetCore().RegisterNewUser(j["Message"]);
             }
-            else if (reqType == Requests::Hello)
+            else if (reqType == Requests::Buy)
             {
-                // Это реквест на приветствие.
-                // Находим имя пользователя по ID и приветствуем его по имени.
-                reply = "Hello, " + GetCore().GetUserName(j["UserId"]) + "!\n";
+
+            }
+            else if (reqType == Requests::Sale)
+            {
+
+            }
+            else if (reqType == Requests::Bill)
+            {
+
+            }
+            else if (reqType == Requests::ActiveRequests)
+            {
+
             }
 
             boost::asio::async_write(socket_,
