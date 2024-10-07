@@ -4,7 +4,8 @@
 
 #include <vector>
 
-class OrderBook {
+class OrderBook 
+{
 public:
     void AddOrder(const Order& order);
     void RemoveOrder(const Order& order);

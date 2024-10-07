@@ -14,25 +14,45 @@ namespace Requests
 }
 
 namespace {
-    enum OrderType {
+    enum OrderType
+    {
         BUY = 1,
         SELL = 2
     };
 
-    struct Order {
-    int volume;
-    double price;
-    OrderType type;
-    int userId;
-
-    Order(int volume, double price, OrderType type, int userId)
-    : volume(volume)
-    , price(price)
-    , type(type)
-    , userId(userId) 
+    struct Order
     {
-    }
-};
+        int volume;
+        double price;
+        OrderType type;
+        int userId;
+
+        Order(int volume, double price, OrderType type, int userId)
+            : volume(volume)
+            , price(price)
+            , type(type)
+            , userId(userId) 
+        {
+        }
+    };
+
+    struct User {
+        int id;
+        double usdBalance;
+        double rubBalance;
+
+        User(int id) 
+            : id(id)
+            , usdBalance(0)
+            , rubBalance(0) 
+        {
+        }
+
+        void updateBalance(double usd, double rub) {
+            usdBalance += usd;
+            rubBalance += rub;
+        }
+    };
 }
 
 
