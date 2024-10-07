@@ -11,7 +11,6 @@ namespace Requests
     static std::string Buy              = "Buy";
     static std::string Sale             = "Sale";
     static std::string Bill             = "Bill";
-    static std::string ActiveRequests   = "StockState";
 }
 
 namespace {
