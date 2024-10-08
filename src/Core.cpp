@@ -103,6 +103,12 @@ int Core::getCurrentTimestamp()
     return std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
+void Core::reset()
+{
+    mOrderBook.reset();
+    mUsers.clear();
+}
+
 Core& GetCore()
 {
     static Core core;

@@ -8,9 +8,14 @@ class OrderBook
 {
 public:
     void AddOrder(const Order& order);
+
     void RemoveOrder(const Order& order);
+
     const std::vector<Order>& getBuyOrders() const;
+
     const std::vector<Order>& getSellOrders() const;
+
+    void reset();
 
 private:
     std::vector<Order> buyOrders;

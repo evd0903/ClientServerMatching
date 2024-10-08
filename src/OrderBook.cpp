@@ -44,3 +44,9 @@ const std::vector<Order>& OrderBook::getBuyOrders() const {
 const std::vector<Order>& OrderBook::getSellOrders() const {
     return sellOrders;
 }
+
+void OrderBook::reset()
+{
+    buyOrders.clear();
+    sellOrders.clear();
+}

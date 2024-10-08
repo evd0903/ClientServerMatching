@@ -2,6 +2,7 @@
 
 #include "OrderBook.h"
 
+#include <gtest/gtest_prod.h>
 #include <string>
 #include <map>
 
@@ -19,6 +20,12 @@ public:
     void addOrder(const Order& order);
 
     int getCurrentTimestamp();
+
+    void reset();
+
+    FRIEND_TEST(CoreTest, HandleOrderWithoutDeal);
+    FRIEND_TEST(CoreTest, PartialExecution);
+    FRIEND_TEST(CoreTest, ExecutionWithMultipleOrders);
 
 private:
     void matchOrders(const Order& newOrder, const std::vector<Order>& existingOrders);

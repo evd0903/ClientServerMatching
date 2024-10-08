@@ -46,3 +46,20 @@ set(CLIENT_HEADERS
 # Создание исполняемого файла для клиента
 add_executable(Client ${CLIENT_SOURCES} ${CLIENT_HEADERS})
 target_link_libraries(Client PRIVATE Threads::Threads ${Boost_LIBRARIES})
+
+# Добавление Google Test
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+set(TEST_DIR tests)
+
+# Добавление исходных файлов для тестов
+set(TEST_SOURCES
+    ${TEST_DIR}/TestCore.cpp
+    ${SOURCE_DIR}/Core.cpp
+    ${SOURCE_DIR}/OrderBook.cpp
+)
+
+# Создание исполняемого файла для тестов
+add_executable(TestCore ${TEST_SOURCES})
+target_link_libraries(TestCore PRIVATE ${GTEST_LIBRARIES} Threads::Threads ${Boost_LIBRARIES})
