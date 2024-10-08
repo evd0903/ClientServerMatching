@@ -7,20 +7,16 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Директория для исходных файлов
 set(SOURCE_DIR src)
 
-# Директория для заголовочных файлов
 set(HEADER_DIR src)
 
-# Добавление исходных файлов для сервера
 set(SERVER_SOURCES
     ${SOURCE_DIR}/Server.cpp
     ${SOURCE_DIR}/Core.cpp
     ${SOURCE_DIR}/OrderBook.cpp
 )
 
-# Добавление заголовочных файлов для сервера
 set(SERVER_HEADERS
     ${HEADER_DIR}/Core.h
     ${HEADER_DIR}/OrderBook.h
@@ -28,38 +24,34 @@ set(SERVER_HEADERS
     ${HEADER_DIR}/json.hpp
 )
 
-# Создание исполняемого файла для сервера
-add_executable(Server ${SERVER_SOURCES} ${SERVER_HEADERS})
-target_link_libraries(Server PRIVATE Threads::Threads ${Boost_LIBRARIES})
+add_executable(server ${SERVER_SOURCES} ${SERVER_HEADERS})
+target_link_libraries(server PRIVATE Threads::Threads ${Boost_LIBRARIES})
 
-# Добавление исходных файлов для клиента
 set(CLIENT_SOURCES
     ${SOURCE_DIR}/Client.cpp
 )
 
-# Добавление заголовочных файлов для клиента
 set(CLIENT_HEADERS
     ${HEADER_DIR}/Common.hpp
     ${HEADER_DIR}/json.hpp
 )
 
-# Создание исполняемого файла для клиента
-add_executable(Client ${CLIENT_SOURCES} ${CLIENT_HEADERS})
-target_link_libraries(Client PRIVATE Threads::Threads ${Boost_LIBRARIES})
+add_executable(client ${CLIENT_SOURCES} ${CLIENT_HEADERS})
+target_link_libraries(client PRIVATE Threads::Threads ${Boost_LIBRARIES})
 
-# Добавление Google Test
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 set(TEST_DIR tests)
 
-# Добавление исходных файлов для тестов
 set(TEST_SOURCES
     ${TEST_DIR}/TestCore.cpp
     ${SOURCE_DIR}/Core.cpp
     ${SOURCE_DIR}/OrderBook.cpp
 )
 
-# Создание исполняемого файла для тестов
 add_executable(TestCore ${TEST_SOURCES})
 target_link_libraries(TestCore PRIVATE ${GTEST_LIBRARIES} Threads::Threads ${Boost_LIBRARIES})
+
+enable_testing()
+add_test(NAME TestCore COMMAND TestCore)

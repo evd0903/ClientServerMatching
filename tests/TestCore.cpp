@@ -5,13 +5,11 @@
 class CoreTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Настройка состояния Core перед каждым тестом
         core = &GetCore();
-        core->reset(); // Предположим, что у вас есть метод reset для сброса состояния
+        core->reset();
     }
 
     void TearDown() override {
-        // Очистка состояния Core после каждого теста
         core->reset();
     }
 
@@ -23,7 +21,6 @@ TEST_F(CoreTest, HandleOrderWithoutDeal) {
     Order order(10, 60, OrderType::BUY, 1, 12345);
     core.addOrder(order);
 
-    // Проверка, что заявка не была исполнена
     EXPECT_EQ(core.mOrderBook.getBuyOrders().size(), 1);
     EXPECT_EQ(core.mOrderBook.getSellOrders().size(), 0);
 }
@@ -35,7 +32,6 @@ TEST_F(CoreTest, PartialExecution) {
     core.addOrder(buyOrder);
     core.addOrder(sellOrder);
 
-    // Проверка частичного исполнения
     EXPECT_EQ(core.mOrderBook.getBuyOrders().size(), 1);
     EXPECT_EQ(core.mOrderBook.getSellOrders().size(), 0);
     EXPECT_EQ(core.mUsers[1].usdBalance, 10);
@@ -51,7 +47,6 @@ TEST_F(CoreTest, ExecutionWithMultipleOrders) {
     core.addOrder(buyOrder2);
     core.addOrder(sellOrder);
 
-    // Проверка исполнения с несколькими заявками
     EXPECT_EQ(core.mOrderBook.getBuyOrders().size(), 0);
     EXPECT_EQ(core.mOrderBook.getSellOrders().size(), 0);
     EXPECT_EQ(core.mUsers[1].usdBalance, 10);

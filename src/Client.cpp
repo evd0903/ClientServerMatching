@@ -75,7 +75,7 @@ int main()
             // Тут реализовано "бесконечное" меню.
             std::cout << "Menu:\n"
                          "1) New buy\n"
-                         "2) Bew Sell\n"
+                         "2) New Sell\n"
                          "3) Get bill\n"
                          "4) Exit\n"
                          << std::endl;
