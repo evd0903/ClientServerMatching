@@ -11,12 +11,20 @@ void SendMessage(
     tcp::socket& aSocket,
     const std::string& aId,
     const std::string& aRequestType,
-    const std::string& aMessage)
+    const std::string& aMessage = "",
+    const std::string& aPrice = "",
+    const std::string& aVolume = "")
 {
     nlohmann::json req;
     req["UserId"] = aId;
     req["ReqType"] = aRequestType;
     req["Message"] = aMessage;
+
+    if (aRequestType == Requests::Buy || aRequestType == Requests::Sale) 
+    {
+        req["Price"] = aPrice;
+        req["Volume"] = aVolume;
+    }
 
     std::string request = req.dump();
     boost::asio::write(aSocket, boost::asio::buffer(request, request.size()));
@@ -66,8 +74,10 @@ int main()
         {
             // Тут реализовано "бесконечное" меню.
             std::cout << "Menu:\n"
-                         "1) Hello Request\n"
-                         "2) Exit\n"
+                         "1) New buy\n"
+                         "2) Bew Sell\n"
+                         "3) Get bill\n"
+                         "4) Exit\n"
                          << std::endl;
 
             short menu_option_num;
@@ -76,17 +86,28 @@ int main()
             {
                 case 1:
                 {
-                    // Для примера того, как может выглядить взаимодействие с сервером
-                    // реализован один единственный метод - Hello.
-                    // Этот метод получает от сервера приветствие с именем клиента,
-                    // отправляя серверу id, полученный при регистрации.
-                    SendMessage(s, my_id, Requests::Hello, "");
-                    std::cout << ReadMessage(s);
+                    std::string price, volume;
+                    std::cout << "Enter purchase price USD : " << std::endl;
+                    std::cin >> price;
+                    std::cout << "Enter purchase volume USD : " << std::endl;
+                    std::cin >> volume;
+                    SendMessage(s, my_id, Requests::Buy, " ", price, volume);
                     break;
                 }
                 case 2:
                 {
-                    exit(0);
+                    std::string price, volume;
+                    std::cout << "Enter sales price USD : " << std::endl;
+                    std::cin >> price;
+                    std::cout << "Enter sales volume USD : " << std::endl;
+                    std::cin >> volume;
+                    SendMessage(s, my_id, Requests::Sale, " ", price, volume);
+                    break;
+                }
+                case 3:
+                {
+                    SendMessage (s, my_id, Requests::Bill);
+                    std::cout << ReadMessage (s);
                     break;
                 }
                 default:

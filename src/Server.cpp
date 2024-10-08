@@ -3,7 +3,6 @@
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
 #include <string>
-#include "OrderBook.h"
 #include "json.hpp"
 #include "Common.hpp"
 #include "Core.h"
@@ -52,15 +51,19 @@ public:
             }
             else if (reqType == Requests::Buy)
             {
-
+                Order order(std::stoi(j["Volume"].get<std::string>()), std::stod(j["Price"].get<std::string>()), OrderType::BUY, std::stoi(j["UserId"].get<std::string>()), GetCore().getCurrentTimestamp());
+                GetCore().addOrder(order);
+                reply.clear();
             }
             else if (reqType == Requests::Sale)
             {
-
+                Order order(std::stoi(j["Volume"].get<std::string>()), std::stod(j["Price"].get<std::string>()), OrderType::SELL, std::stoi(j["UserId"].get<std::string>()), GetCore().getCurrentTimestamp());
+                GetCore().addOrder(order);
+                reply.clear();
             }
             else if (reqType == Requests::Bill)
             {
-
+                reply = GetCore().GetUserBalance(j["UserId"]);
             }
 
             boost::asio::async_write(socket_,

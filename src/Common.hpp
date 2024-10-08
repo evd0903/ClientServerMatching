@@ -13,48 +13,51 @@ namespace Requests
     static std::string Bill             = "Bill";
 }
 
-namespace {
-    enum OrderType
+enum OrderType
+{
+    BUY = 1,
+    SELL = 2
+};
+
+struct Order
+{
+    Order() = default;
+    Order(int volume, double price, OrderType type, int userId, int timestamp)
+        : volume(volume)
+        , price(price)
+        , type(type)
+        , userId(userId)
+        , timestamp(timestamp)
     {
-        BUY = 1,
-        SELL = 2
-    };
+    }
 
-    struct Order
+    int volume;
+    double price;
+    OrderType type;
+    int userId;
+    int timestamp;
+};
+
+struct User 
+{
+    User() = default;
+    User(int id, std::string name) 
+        : id(id)
+        , usdBalance(0)
+        , rubBalance(0)
+        , name(name)
     {
-        int volume;
-        double price;
-        OrderType type;
-        int userId;
+    }
 
-        Order(int volume, double price, OrderType type, int userId)
-            : volume(volume)
-            , price(price)
-            , type(type)
-            , userId(userId) 
-        {
-        }
-    };
+    int id;
+    std::string name;
+    double usdBalance;
+    double rubBalance;
 
-    struct User {
-        int id;
-        double usdBalance;
-        double rubBalance;
-
-        User(int id) 
-            : id(id)
-            , usdBalance(0)
-            , rubBalance(0) 
-        {
-        }
-
-        void updateBalance(double usd, double rub) {
-            usdBalance += usd;
-            rubBalance += rub;
-        }
-    };
-}
-
-
+    void updateBalance(double usd, double rub) {
+        usdBalance += usd;
+        rubBalance += rub;
+    }
+};
 
 #endif //CLIENSERVERECN_COMMON_HPP
